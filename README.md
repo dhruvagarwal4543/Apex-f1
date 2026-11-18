@@ -12,6 +12,12 @@
 
 <p align="center"><a href="#quick-start--windows-powershell">Run locally</a> · <a href="#inside-apex">Explore the app</a> · <a href="#how-the-ml-works">How it predicts</a> · <a href="#dataset-and-model-results">Results</a> · <a href="#coursework-deliverables">Coursework</a> · <a href="CREDITS.md">Credits</a></p>
 
+> 🏁 **What if Senna, Schumacher and Verstappen shared one grid?** APEX lets you build that race, lets 16 ML models predict it, and plays the result in 3D.
+
+| 🧠 ML | 🏎️ Simulation | 🌐 Web app |
+|---|---|---|
+| 10 classifiers + 6 regressors, chronological validation | 5,000 seeded race simulations per model | FastAPI backend, React + Three.js 3D circuits |
+
 APEX is an **educational machine-learning race simulator**. Pick historical F1 drivers, assign constructors at their automatically selected peak, choose a classifier and regressor, configure a circuit and weather, then watch a 3D race end in the models’ predicted order.
 
 **208 eligible drivers · 65 constructor identities · 537 historical car-season profiles · 22 grid positions · 11 teams, two seats each.** Historical data ends in 2025. This is an independent coursework project, not an official F1 forecasting service.
@@ -59,11 +65,38 @@ Historical cars use simplified era approximations; 2010–2017 shares the disclo
 | Race sampling | Calibrated scores drive 5,000 seeded simulations per selected model, using shared random numbers. |
 | Final result | Average the two models’ expected finishing positions, then rank the complete field and show P1–P22. |
 
+```mermaid
+flowchart LR
+    A[Jolpica F1 + Open-Meteo<br/>1950-2025] --> B[Feature engineering<br/>no future leakage]
+    B --> C[Classifier<br/>podium chance]
+    B --> D[Regressor<br/>finishing score]
+    C --> E[5,000 seeded<br/>race simulations]
+    D --> E
+    E --> F[Average expected position<br/>final P1-P22]
+    F --> G[3D race in the browser]
+```
+
 Different models learn different relationships, so their expected positions and podium choices can differ. Driver inputs come from each driver’s validated eligible form season; constructor inputs come from **one complete real peak-season profile**, never a fictional combination of the best metrics from different cars.
 
 Peak selection weights relative qualifying-grid percentile **40%**, race finishing percentile **40%**, and DNF share against that season’s field **20%**. Eligible seasons with at least eight races are preferred; thinner constructors remain available with an internal evidence flag. [Methodology and decisions →](docs/DECISIONS_LOG.md)
 
 **The finishing order is the model output. Overtakes and intermediate race motion are illustrative**, not predicted telemetry or lap-by-lap events. Cross-era matchups cannot be validated against an actual race. Model training/evaluation uses chronological splits; some reported simulator holdout results are explicitly post-hoc. [Research and limitations →](docs/LITERATURE_REVIEW.md)
+
+## Quick start — macOS / Linux
+
+```bash
+git clone https://github.com/dhruvagarwal4543/Apex-f1.git
+cd Apex-f1
+
+python3.11 -m venv .venv
+.venv/bin/python -m pip install -r requirements-lock.txt
+(cd frontend && npm ci && npm run build)
+
+.venv/bin/python scripts/verify_bundle.py   # models and data are bundled, no retraining
+.venv/bin/python -m uvicorn src.api:app --host 127.0.0.1 --port 8012
+```
+
+Open **http://127.0.0.1:8012**.
 
 ## Quick start — Windows PowerShell
 
@@ -176,6 +209,10 @@ Pop-Location
 The live collection test is excluded from offline checks. GPU frame rates depend on the machine. [Actual publication verification and clean-copy results →](docs/VERIFICATION.md)
 
 To refresh the README’s real screenshots, run `npm run showcase` from `frontend` with `E2E_URL` set, then run `python scripts/optimize_screenshots.py` from the root. Only optimized WebP images are published.
+
+## Author
+
+Built by **[Dhruv Agarwal](https://github.com/dhruvagarwal4543)**. If APEX was fun, give the repo a ⭐.
 
 ## Credits and scope
 
