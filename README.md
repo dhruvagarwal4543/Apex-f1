@@ -70,8 +70,8 @@ Peak selection weights relative qualifying-grid percentile **40%**, race finishi
 **Prerequisites:** Python **3.11**, Node.js **20+** with npm, and Git. Browser E2E checks use installed Microsoft Edge; Chrome can be selected where supported.
 
 ```powershell
-git clone https://github.com/akshat12bhardwaj/F1-Race-Prediction.git
-Set-Location F1-Race-Prediction
+git clone https://github.com/dhruvagarwal4543/Apex-f1.git
+Set-Location Apex-f1
 
 py -3.11 -m venv .venv
 & .\.venv\Scripts\python.exe -m pip install -r requirements-lock.txt

@@ -39,7 +39,7 @@ Real screenshot capture used the actual UI to replace both Toyota seats with pea
 
 The index-export check established reproducibility before publication. Post-push verification of the actual public GitHub repository then succeeded:
 
-- Repository: `https://github.com/akshat12bhardwaj/F1-Race-Prediction`, public, default branch `main`.
+- Repository: `https://github.com/dhruvagarwal4543/Apex-f1`, public, default branch `main`.
 - Tested implementation commit: `0467ba4a0d2a71eabfca13519229dc16639d3bee`. The original ten local development commits are preserved as ancestors.
 - A real network clone matched that commit and verified all 409 frozen artifacts without downloading models/data separately.
 - The clone passed 31 additional focused peak-grid/prediction tests, plus `npm ci` and a production build. Its working tree stayed clean after these checks.
